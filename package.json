@@ -1,0 +1,30 @@
+{
+  "name": "node-js-getting-started",
+  "version": "0.3.0",
+  "description": "naprasnus",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "bot/index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start-dev": "nodemon index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.604.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "telegraf": "^3.35.0"
+  },
+  "repository": {
+    "type": "git"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
