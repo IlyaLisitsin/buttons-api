@@ -1,4 +1,4 @@
-const { wait } = require('../helpers/wait');
+const { wait } = require('../services/helpers');
 
 const setupStart = function (bot) {
     bot.start(async (ctx) => {
