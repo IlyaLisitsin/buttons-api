@@ -9,7 +9,7 @@ const uploadToBucket = async function ({ bucketName, fileId, fileName }) {
     const params = {
         Bucket: bucketName,
         Key: fileName,
-        Body: fileContent
+        Body: fileContent,
     };
 
     return new Promise((resolve, reject) => {
@@ -18,7 +18,7 @@ const uploadToBucket = async function ({ bucketName, fileId, fileName }) {
 
 
             resolve(data);
-            console.log(`File uploaded successfully. ${data.Location}`);
+            console.log(`File uploaded successfully. ${data}`);
         });
     }).catch(err => console.log(`File upload failed with ${err}`))
 };
