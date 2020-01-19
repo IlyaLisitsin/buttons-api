@@ -10,7 +10,7 @@ function setupMongoose() {
             });
         mongoose.connection.on('disconnected', () => {
             console.log('Mongo connection lost. Trying to reconnect');
-            mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+            mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true })
         });
     })
 }

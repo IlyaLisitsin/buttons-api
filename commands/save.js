@@ -8,17 +8,24 @@ const setupSave = function (bot) {
 
         if (info) {
             const { username, avatarId } = info;
-            await uploadToBucket({
-                fileId: ctx.update.callback_query.message.voice.file_id,
-                bucketName: 'button-audio',
-                fileName: `${username}.ogg`,
-            });
 
             await uploadToBucket({
-                fileId: avatarId,
-                bucketName: 'button-avatar',
-                fileName: `${username}.jpg`,
+                audioId: ctx.update.callback_query.message.voice.file_id,
+                avatarId,
+                username,
             });
+            //
+            // await uploadToBucket({
+            //     fileId: ctx.update.callback_query.message.voice.file_id,
+            //     bucketName: 'button-audio',
+            //     fileName: `${username}.ogg`,
+            // });
+            //
+            // await uploadToBucket({
+            //     fileId: avatarId,
+            //     bucketName: 'button-avatar',
+            //     fileName: `${username}.jpg`,
+            // });
 
             removeUserInfo({ id: ctx.update.callback_query.message.date });
             ctx.deleteMessage();
