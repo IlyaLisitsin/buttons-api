@@ -1,8 +1,8 @@
 const Extra = require('telegraf/extra');
 const Markup = require('telegraf/markup');
-// const mongoose = require('mongoose');
-//
-// const { UserInfo } = require('../models');
+const mongoose = require('mongoose');
+
+// const { SavedUser } = require('../models');
 
 const { wait } = require('../services/helpers');
 const { saveNewUserInfo } = require('../services/save-new-user-info');
@@ -29,19 +29,21 @@ const setupMessage = function (bot) {
             await saveNewUserInfo({
                 username: ctx.message.from.username,
                 id: messageToAdmin.date,
-                avatarId: profilePhotos.photos[0][2].file_id,
+                avatarId: profilePhotos.photos[0] ? profilePhotos.photos[0][2].file_id : 'AgADAgADqacxG_IZehqzzSEUSUdOlFXOuQ8ABAEAAwIAA2MAA3KsAAIWBA',
             });
 
-            // ctx.telegram.getUserProfilePhotos(ctx.message.from.id, 0, 1).then(kek => console.log(kek.photos[0][2]))
-
-            // mongoose.model('NewUser').on('change', async data => {
-            //     console.log(data.operationType, data)
-            //     if (data.operationType === 'delete') {
-            //         console.log(data)
-            //     }
-            // })
+            mongoose.model('SavedUser').on('change', async data => {
+                console.log(data.operationType, data)
+                if (data.operationType === 'delete') {
+                    console.log(data)
+                }
+            })
         }
     });
 };
 
 module.exports = { setupMessage };
+
+// { audioId: 'AwADAgAD5gUAAgL3MEk4mTGFDd3cqxYE',
+//     avatarId: 'AgADAgADqacxG_IZehqzzSEUSUdOlFXOuQ8ABAEAAwIAA2MAA3KsAAIWBA',
+//     username: 'privetlisitsin' }

@@ -5,7 +5,6 @@ const { removeUserInfo } = require('../services/remove-user-info');
 const setupSave = function (bot) {
     bot.action('save', async (ctx) => {
         const info = await getUserInfo({ id: ctx.update.callback_query.message.date });
-
         if (info) {
             const { username, avatarId } = info;
 
@@ -14,20 +13,8 @@ const setupSave = function (bot) {
                 avatarId,
                 username,
             });
-            //
-            // await uploadToBucket({
-            //     fileId: ctx.update.callback_query.message.voice.file_id,
-            //     bucketName: 'button-audio',
-            //     fileName: `${username}.ogg`,
-            // });
-            //
-            // await uploadToBucket({
-            //     fileId: avatarId,
-            //     bucketName: 'button-avatar',
-            //     fileName: `${username}.jpg`,
-            // });
 
-            removeUserInfo({ id: ctx.update.callback_query.message.date });
+            removeUserInfo({ id: ctx.update.callback_query.message.date, username });
             ctx.deleteMessage();
         }
     });

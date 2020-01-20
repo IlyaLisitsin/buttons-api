@@ -1,4 +1,3 @@
-const { s3 } = require('../init/setup-aws');
 const { httpGet } = require('./helpers');
 
 const { SavedUser } = require('../models');
@@ -16,9 +15,9 @@ const uploadToBucket = async function ({ audioId, avatarId, username }) {
     SavedUser.find({ username }).then((data) => {
         const newSavedUser = { audioUrl, avatarUrl, username };
         if (!data.length) {
-            new SavedUser(newSavedUser).save();
+            new SavedUser(newSavedUser).save().then(() => console.log(`Username "${username}" successfully added`));
         } else {
-            SavedUser.updateOne({ username }, { audioUrl, avatarUrl }, { new: true }).then()
+            SavedUser.updateOne({ username }, { audioUrl, avatarUrl }, { new: true }).then((data) => `Username "${username}" successfully updated`);
         }
     }).catch(err => console.log(`User upload failed with ${err}`));
 };
