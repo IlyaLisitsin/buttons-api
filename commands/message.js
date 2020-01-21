@@ -2,7 +2,7 @@ const Extra = require('telegraf/extra');
 const Markup = require('telegraf/markup');
 const mongoose = require('mongoose');
 
-// const { SavedUser } = require('../models');
+const { SavedUser, NewUser } = require('../models');
 
 const { wait } = require('../services/helpers');
 const { saveNewUserInfo } = require('../services/save-new-user-info');
@@ -32,18 +32,18 @@ const setupMessage = function (bot) {
                 avatarId: profilePhotos.photos[0] ? profilePhotos.photos[0][2].file_id : 'AgADAgADqacxG_IZehqzzSEUSUdOlFXOuQ8ABAEAAwIAA2MAA3KsAAIWBA',
             });
 
-            mongoose.model('SavedUser').on('change', async data => {
-                console.log(data.operationType, data)
-                if (data.operationType === 'delete') {
-                    console.log(data)
-                }
-            })
+
+            new Promise(resolve => {
+                SavedUser.watch().on('change', data => {
+                    if (data.operationType === 'update') resolve(data.operationType)
+                })
+            }).then(async () => {
+                await ctx.reply('папе понравилось!');
+                await wait(1000);
+                await ctx.reply('смотри тут http://naprasnominsk.com/buttons');
+            });
         }
     });
 };
 
 module.exports = { setupMessage };
-
-// { audioId: 'AwADAgAD5gUAAgL3MEk4mTGFDd3cqxYE',
-//     avatarId: 'AgADAgADqacxG_IZehqzzSEUSUdOlFXOuQ8ABAEAAwIAA2MAA3KsAAIWBA',
-//     username: 'privetlisitsin' }

@@ -7,5 +7,4 @@ const NewUserSchema = new Schema({
     avatarId: String,
 }, { collection: 'new-user-info', versionKey: false });
 
-module.exports = mongoose.model('NewUser', NewUserSchema);
-
+module.exports = mongoose.model('NewUser', NewUserSchema, 'new-user-info');

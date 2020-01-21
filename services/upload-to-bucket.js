@@ -15,9 +15,11 @@ const uploadToBucket = async function ({ audioId, avatarId, username }) {
     SavedUser.find({ username }).then((data) => {
         const newSavedUser = { audioUrl, avatarUrl, username };
         if (!data.length) {
-            new SavedUser(newSavedUser).save().then(() => console.log(`Username "${username}" successfully added`));
+            new SavedUser(newSavedUser).save()
+                .then(() => console.log(`Username "${username}" successfully added`));
         } else {
-            SavedUser.updateOne({ username }, { audioUrl, avatarUrl }, { new: true }).then((data) => `Username "${username}" successfully updated`);
+            SavedUser.updateOne({ username }, { audioUrl, avatarUrl }, { new: true })
+                .then(() => console.log(`Username "${username}" successfully updated`));
         }
     }).catch(err => console.log(`User upload failed with ${err}`));
 };
