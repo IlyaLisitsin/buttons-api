@@ -6,9 +6,12 @@ const setupDecline = function (bot) {
         const info = await getUserInfo({ id: ctx.update.callback_query.message.date });
         if (info) {
             await removeUserInfo({ id: ctx.update.callback_query.message.date, username: info.username });
+        }
+
+        try {
             ctx.deleteMessage();
-        } else {
-            ctx.deleteMessage();
+        } catch (e) {
+            console.log(e);
         }
     });
 };

@@ -36,7 +36,8 @@ process.on('exit', (code) => {
 });
 
 process.on('unhandledRejection', (code) => {
-    console.log('BLYA POLOMALOS');
+    console.log('BLYA POLOMALOS', code);
+    init();
 });
 
 process.on('SIGTERM', (err, origin) => {
