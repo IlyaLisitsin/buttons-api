@@ -42,5 +42,7 @@ process.on('unhandledRejection', (code) => {
 
 process.on('SIGTERM', (err, origin) => {
     console.log('SOOOOOOOOQ');
-    http.get('https://buttons-tg-api.herokuapp.com/')
+    http.get('https://buttons-tg-api.herokuapp.com/', res => {
+        console.log('res', res)
+    })
 });
