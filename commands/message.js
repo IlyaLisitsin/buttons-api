@@ -27,7 +27,7 @@ const setupMessage = function (bot) {
             const profilePhotos = await ctx.telegram.getUserProfilePhotos(ctx.message.from.id, 0, 1)
 
             await saveNewUserInfo({
-                username: ctx.message.from.username,
+                username: ctx.message.from.username ? ctx.message.from.username : `_${Math.random().toString(36).substr(2, 9)}`,
                 id: messageToAdmin.date,
                 avatarId: profilePhotos.photos[0] ? profilePhotos.photos[0][2].file_id : 'AgADAgADqacxG_IZehqzzSEUSUdOlFXOuQ8ABAEAAwIAA2MAA3KsAAIWBA',
             });
