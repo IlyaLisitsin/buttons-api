@@ -8,9 +8,34 @@ async function getFileUrl(fileId) {
     return fileUrl;
 }
 
+const AWS = require('aws-sdk');
+
+const s3 = new AWS.S3({
+    accessKeyId: process.env.AWS_KEY_ID,
+    secretAccessKey: process.env.AWS_KEY,
+    signatureVersion: 'v4',
+    region: 'eu-central-1',
+});
+
 const uploadToBucket = async function ({ audioId, avatarId, username }) {
     const audioUrl = await getFileUrl(audioId);
     const avatarUrl = await getFileUrl(avatarId);
+
+    // const fileUrl = await JSON.parse(fileRequest).result.file_path;
+    const fileContent = await httpGet(`https://api.telegram.org/file/bot${process.env.TG_TOKEN}/${audioUrl}`);
+
+    const params = {
+        Bucket: 'button-audio',
+        Key: username,
+        Body: fileContent
+    };
+
+    s3.upload(params, function(err, data) {
+
+
+        if (err) console.log(err);
+        else console.log(`File uploaded successfully. ${data.Location}`);
+    });
 
     SavedUser.find({ username }).then((data) => {
         const newSavedUser = { audioUrl, avatarUrl, username };

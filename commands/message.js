@@ -24,7 +24,7 @@ const setupMessage = function (bot) {
             ctx.reply('только он решает можно ли кому-то быть кнопочкой!');
 
             const messageToAdmin = await ctx.telegram.sendVoice('444209650', ctx.message.voice.file_id, Extra.markup(keyboard));
-            const profilePhotos = await ctx.telegram.getUserProfilePhotos(ctx.message.from.id, 0, 1)
+            const profilePhotos = await ctx.telegram.getUserProfilePhotos(ctx.message.from.id, 0, 1);
 
             await saveNewUserInfo({
                 username: ctx.message.from.username ? ctx.message.from.username : `_${Math.random().toString(36).substr(2, 9)}`,
