@@ -1,11 +1,5 @@
 const { httpGet } = require('./helpers');
 
-async function getFileUrl(fileId) {
-    const fileRequest = await httpGet(`https://api.telegram.org/bot${process.env.TG_TOKEN}/getFile?file_id=${fileId}`);
-    const fileUrl = await JSON.parse(fileRequest).result.file_path;
-    return fileUrl;
-}
-
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3({
@@ -15,11 +9,11 @@ const s3 = new AWS.S3({
     region: 'eu-central-1',
 });
 
-const uploadToBucket = async function ({ audioId, avatarId, username }) {
-    const audioUrl = await getFileUrl(audioId);
-    const avatarUrl = await getFileUrl(avatarId);
-    const audioFileContent = await httpGet(`https://api.telegram.org/file/bot${process.env.TG_TOKEN}/${audioUrl}`);
-    const avatarFileContent = await httpGet(`https://api.telegram.org/file/bot${process.env.TG_TOKEN}/${avatarUrl}`);
+const uploadToBucket = async function ({ audioUrl, avatarUrl, username }) {
+    [audioFileContent, avatarFileContent] = await Promise.all([
+        httpGet(audioUrl),
+        httpGet(avatarUrl),
+    ]);
 
     await Promise.all([
         new Promise(resolve => s3.upload({
