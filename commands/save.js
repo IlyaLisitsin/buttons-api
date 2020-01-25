@@ -8,13 +8,19 @@ const setupSave = function (bot) {
         const info = await getUserInfo({ id: ctx.update.callback_query.message.date });
         if (info) {
             const { username, avatarId } = info;
-
-            const [avatarUrl, audioUrl] = await Promise.all([
-                ctx.telegram.getFileLink(avatarId)
-                    .catch(() => console.log(`Telegram failed to fetch avatar ${avatarUrl}`)),
+            let [avatarUrl, audioUrl] = await Promise.all([
+                new Promise(resolve => {
+                    avatarId ?
+                    ctx.telegram.getFileLink(avatarId)
+                        .then(url => resolve(url))
+                        .catch(() => console.log(`Telegram failed to fetch avatar ${avatarId}`))
+                    : resolve('https://sun9-23.userapi.com/c853516/v853516932/1d8d4f/W761NomEPfE.jpg');
+                }),
                 ctx.telegram.getFileLink(ctx.update.callback_query.message.voice.file_id)
                     .catch(() => console.log(`Telegram failed to fetch audio ${audioUrl}`))
             ]);
+
+            // console.log(audioUrl)
 
             await uploadToBucket({
                 avatarUrl,
